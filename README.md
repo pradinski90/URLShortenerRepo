@@ -9,3 +9,5 @@ redis container -
 
 redis-cli
 HGETALL Ecnh
+
+
