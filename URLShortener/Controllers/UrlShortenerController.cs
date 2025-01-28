@@ -43,7 +43,7 @@ namespace URLShortener.Controllers
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
         [ProducesResponseType(typeof(ValidationProblemDetails), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(ShortUrlDTO), (int)HttpStatusCode.OK)]
-        public async Task<Result<ShortUrlDTO>> Get([FromQuery] GetShortUrlRequest request)
+        public async Task<Result<ShortUrlDTO>> Get([FromRoute] GetShortUrlRequest request)
         {
             var getShortUrlQuery = new GetShortUrlQuery(request.UrlSuffix);
 
