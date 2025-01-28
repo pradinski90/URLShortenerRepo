@@ -21,7 +21,6 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddDbContext<UrlDbContext>(options =>
     {
-        Console.WriteLine(builder.Configuration.GetConnectionString("SQL"));
         options.UseSqlServer(builder.Configuration.GetConnectionString("SQL"),
             sqlServerOptionsAction: sqlOptions =>
             {
@@ -32,28 +31,13 @@ builder.Services.AddDbContext<UrlDbContext>(options =>
     ServiceLifetime.Scoped
 );
 
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = builder.Configuration.GetConnectionString("REDIS");
+});
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-//builder.RegisterAssemblyTypes(typeof(IMediator).GetTypeInfo().Assembly)
-//    .AsImplementedInterfaces();
-
-//// Register all the Command classes (they implement IRequestHandler) in assembly holding the Commands
-//builder.RegisterAssemblyTypes(typeof(CreatePostCommand).GetTypeInfo().Assembly)
-//    .AsClosedTypesOf(typeof(IRequestHandler<,>));
-
-//// Register the DomainEventHandler classes (they implement INotificationHandler<>) in assembly holding the Domain Events
-//builder.RegisterAssemblyTypes(typeof(PostCreatedEmailNotificationHandler).GetTypeInfo().Assembly)
-//    .AsClosedTypesOf(typeof(INotificationHandler<>));
-
-
-//builder.Register<ServiceFactory>(context =>
-//{
-//    var componentContext = context.Resolve<IComponentContext>();
-//    return t => { object o; return componentContext.TryResolve(t, out o) ? o : null; };
-//});
-
-//builder.RegisterGeneric(typeof(LoggingBehavior<,>)).As(typeof(IPipelineBehavior<,>));
 
 builder.Services.AddScoped<IShortUrlRepository, ShortUrlRepository>();
 builder.Services.AddScoped<IShortUrlService, ShortUrlService>();

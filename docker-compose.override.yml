@@ -5,8 +5,9 @@ services:
       - ASPNETCORE_HTTP_PORTS=8080
       - ASPNETCORE_HTTPS_PORTS=8081
       - ConnectionStrings__SQL=Data Source=urlshortener.db,1433;Initial Catalog=UrlDb;User ID=sa;Password=qwert123!;TrustServerCertificate=True
-      - OTEL_EXPORTER_OTLP_ENDPOINT=http://amazon.seq:5341/ingest/otlp/v1/traces
-      - OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
+      - ConnectionStrings__REDIS=urlshortener.redis:6379
+      # - OTEL_EXPORTER_OTLP_ENDPOINT=http://amazon.seq:5341/ingest/otlp/v1/traces
+      # - OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
     ports:
       - "8080:8080"
       - "8081:8081"
@@ -24,3 +25,7 @@ services:
       - ${APPDATA}/SQL/UrlShortenerDB/secrets:/var/opt/mssql/secrets
     ports:
       - 1433:1433
+
+  urlshortener.redis:
+    ports:
+      - "6379:6379"

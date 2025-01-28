@@ -6,7 +6,12 @@ services:
       dockerfile: URLShortener/Dockerfile
     depends_on:
       - urlshortener.db
+      - urlshortener.redis
 
   urlshortener.db:
     image: mcr.microsoft.com/mssql/server:2022-latest
     container_name: URLShortener.Db
+
+  urlshortener.redis:
+    image: redis:latest
+    container_name: URLShortener.Cache
