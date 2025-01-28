@@ -1,0 +1,26 @@
+services:
+  urlshortener.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_HTTPS_PORTS=8081
+      - ConnectionStrings__SQL=Data Source=urlshortener.db,1433;Initial Catalog=UrlDb;User ID=sa;Password=qwert123!;TrustServerCertificate=True
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://amazon.seq:5341/ingest/otlp/v1/traces
+      - OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+
+  urlshortener.db:
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=qwert123!
+    volumes:
+      - ${APPDATA}/SQL/UrlShortenerDB/data:/var/opt/mssql/data
+      - ${APPDATA}/SQL/UrlShortenerDB/log:/var/opt/mssql/log
+      - ${APPDATA}/SQL/UrlShortenerDB/secrets:/var/opt/mssql/secrets
+    ports:
+      - 1433:1433
